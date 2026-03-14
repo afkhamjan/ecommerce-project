@@ -4,6 +4,12 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
+// Add this for Vercel
+const path = require('path');
+
+// Export for Vercel
+module.exports = app;
+
 // Load environment variables
 dotenv.config();
 
@@ -119,9 +125,11 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📝 Test route: http://localhost:${PORT}/api/test`);
-  console.log(`📝 Products route: http://localhost:${PORT}/api/products`);
-  console.log(`🔗 Frontend URL: http://localhost:3000`);
-});
+// Only listen when not on Vercel
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
